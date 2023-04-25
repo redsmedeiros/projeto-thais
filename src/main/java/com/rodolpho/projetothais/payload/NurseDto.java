@@ -1,5 +1,8 @@
 package com.rodolpho.projetothais.payload;
 
+import lombok.Data;
+
+@Data
 public class NurseDto {
     
     private Long id;
