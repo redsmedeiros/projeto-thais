@@ -1,8 +1,12 @@
 package com.rodolpho.projetothais.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.rodolpho.projetothais.entity.Nurse;
+import com.rodolpho.projetothais.exception.ResourceNotFoundException;
 import com.rodolpho.projetothais.payload.NurseDto;
 import com.rodolpho.projetothais.repository.NurseRepository;
 import com.rodolpho.projetothais.service.NurseService;
@@ -19,6 +23,56 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public NurseDto createNurse(NurseDto nurseDto) {
 
+        Nurse nurse = mapToEntity(nurseDto); 
+
+        Nurse newNurse = nurseRepository.save(nurse);
+
+        NurseDto nurseResponse = mapToDto(newNurse);
+
+        return nurseResponse;
+    }
+
+    @Override
+    public List<NurseDto> getAllNurses() {
+       
+        List<Nurse> nurses = nurseRepository.findAll();
+
+        List<NurseDto> nursesDto = nurses.stream().map(nurse -> mapToDto(nurse)).collect(Collectors.toList());
+
+        return nursesDto;
+    }
+
+    @Override
+    public NurseDto getSingleNurse(Long nurseId) {
+        
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurse", "NurseId", nurseId));
+
+        return mapToDto(nurse);
+    }
+
+
+    private NurseDto mapToDto(Nurse nurse){
+
+        NurseDto nurseResponse = new NurseDto();
+
+        nurseResponse.setId(nurse.getId());
+        nurseResponse.setName(nurse.getName());
+        nurseResponse.setEmail(nurse.getEmail());
+        nurseResponse.setPhone(nurse.getPhone());
+        nurseResponse.setEmail(nurse.getEmail());
+        nurseResponse.setPhone(nurse.getPhone());
+        nurseResponse.setAge(nurse.getAge());
+        nurseResponse.setGender(nurse.getGender());
+        nurseResponse.setDescription(nurse.getDescription());
+        nurseResponse.setExperienceYears(nurse.getExperienceYears());
+        nurseResponse.setGraduation(nurse.getGraduation());
+        nurseResponse.setCity(nurse.getCity());
+
+        return nurseResponse;
+    }
+
+    private Nurse mapToEntity(NurseDto nurseDto){
+
         Nurse nurse = new Nurse();
 
         nurse.setId(nurseDto.getId());
@@ -32,24 +86,10 @@ public class NurseServiceImpl implements NurseService {
         nurse.setExperienceYears(nurseDto.getExperienceYears());
         nurse.setGraduation(nurseDto.getGraduation());
 
-        Nurse newNurse = nurseRepository.save(nurse);
+        return nurse;
 
-        NurseDto nurseResponse = new NurseDto();
-
-        nurseResponse.setId(newNurse.getId());
-        nurseResponse.setName(newNurse.getName());
-        nurseResponse.setEmail(newNurse.getEmail());
-        nurseResponse.setPhone(newNurse.getPhone());
-        nurseResponse.setEmail(newNurse.getEmail());
-        nurseResponse.setPhone(newNurse.getPhone());
-        nurseResponse.setAge(newNurse.getAge());
-        nurseResponse.setGender(newNurse.getGender());
-        nurseResponse.setDescription(newNurse.getDescription());
-        nurseResponse.setExperienceYears(newNurse.getExperienceYears());
-        nurseResponse.setGraduation(newNurse.getGraduation());
-        nurseResponse.setCity(newNurse.getCity());
-        
-        return nurseResponse;
     }
+
+    
     
 }
