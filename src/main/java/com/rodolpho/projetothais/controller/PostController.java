@@ -11,7 +11,7 @@ import com.rodolpho.projetothais.payload.NurseDto;
 import com.rodolpho.projetothais.service.NurseService;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/nurse")
 public class PostController {
 
     NurseService nurseService;

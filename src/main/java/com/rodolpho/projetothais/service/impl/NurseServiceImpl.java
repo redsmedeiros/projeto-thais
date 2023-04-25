@@ -47,6 +47,7 @@ public class NurseServiceImpl implements NurseService {
         nurseResponse.setDescription(newNurse.getDescription());
         nurseResponse.setExperienceYears(newNurse.getExperienceYears());
         nurseResponse.setGraduation(newNurse.getGraduation());
+        nurseResponse.setCity(newNurse.getCity());
         
         return nurseResponse;
     }
