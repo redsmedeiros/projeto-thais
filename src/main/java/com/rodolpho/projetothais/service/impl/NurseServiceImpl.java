@@ -3,6 +3,9 @@ package com.rodolpho.projetothais.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.rodolpho.projetothais.entity.Nurse;
@@ -33,13 +36,15 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public List<NurseDto> getAllNurses() {
+    public List<NurseDto> getAllNurses(int pageNo, int pageSize) {
+
+        PageRequest pageable = PageRequest.of(pageNo, pageSize);
        
-        List<Nurse> nurses = nurseRepository.findAll();
+        Page<Nurse> nurses = nurseRepository.findAll(pageable);
 
-        List<NurseDto> nursesDto = nurses.stream().map(nurse -> mapToDto(nurse)).collect(Collectors.toList());
+        List<Nurse> listOfNurses = nurses.getContent();
 
-        return nursesDto;
+        return listOfNurses.stream().map(nurse -> mapToDto(nurse)).collect(Collectors.toList());
     }
 
     @Override
@@ -48,6 +53,34 @@ public class NurseServiceImpl implements NurseService {
         Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurse", "NurseId", nurseId));
 
         return mapToDto(nurse);
+    }
+
+    @Override
+    public void deleteNurse(Long nurseId) {
+        
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurse", "NurseId", nurseId));
+
+        nurseRepository.delete(nurse);
+    }
+
+    @Override
+    public NurseDto updateNurse(Long nurseId, NurseDto nurseDto) {
+        
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurse", "NurseId", nurseId));
+        
+        nurse.setName(nurseDto.getName());
+        nurse.setEmail(nurseDto.getEmail());
+        nurse.setAge(nurseDto.getAge());
+        nurse.setCity(nurseDto.getCity());
+        nurse.setDescription(nurseDto.getDescription());
+        nurse.setGender(nurseDto.getGender());
+        nurse.setPhone(nurseDto.getPhone());
+        nurse.setGraduation(nurseDto.getGraduation());
+        nurse.setExperienceYears(nurseDto.getExperienceYears());
+
+        Nurse updateNurse = nurseRepository.save(nurse);
+        
+        return mapToDto(updateNurse);
     }
 
 
@@ -89,6 +122,10 @@ public class NurseServiceImpl implements NurseService {
         return nurse;
 
     }
+
+    
+
+    
 
     
     

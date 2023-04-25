@@ -8,7 +8,11 @@ public interface NurseService {
     
     NurseDto createNurse(NurseDto nurseDto);
 
-    List<NurseDto> getAllNurses();
+    List<NurseDto> getAllNurses(int pageNo, int pageSize);
 
     NurseDto getSingleNurse(Long nurseId);
+
+    NurseDto updateNurse(Long nurseId, NurseDto nurseDto);
+
+    void deleteNurse(Long nurseId);
 }
