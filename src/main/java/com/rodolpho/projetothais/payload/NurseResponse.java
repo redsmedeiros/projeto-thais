@@ -19,5 +19,6 @@ public class NurseResponse {
     private long more10Years; 
     private long genderFeminino;
     private int genderMasculino;
+    private double mediaFeminina;
 
 }

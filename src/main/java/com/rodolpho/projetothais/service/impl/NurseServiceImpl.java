@@ -58,6 +58,8 @@ public class NurseServiceImpl implements NurseService {
 
         int qtdMasculino = genderMasculino.size();
 
+        Double mediaFeminino = nurseRepository.findAverageFemaleNurses();
+
         nurseResponse.setContent(content);
         nurseResponse.setPageNo(nurses.getNumber());
         nurseResponse.setPageSize(nurses.getSize());
@@ -67,6 +69,7 @@ public class NurseServiceImpl implements NurseService {
         nurseResponse.setMore10Years(totalNursesWithExperienceGreaterThanThreshold);
         nurseResponse.setGenderFeminino(qtdFeminino);
         nurseResponse.setGenderMasculino(qtdMasculino);
+        nurseResponse.setMediaFeminina(mediaFeminino);
 
         return nurseResponse;
     }
