@@ -1,6 +1,5 @@
 package com.rodolpho.projetothais.controller;
 
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodolpho.projetothais.payload.NurseDto;
+import com.rodolpho.projetothais.payload.NurseResponse;
 import com.rodolpho.projetothais.service.NurseService;
 
 @RestController
@@ -36,7 +36,7 @@ public class NurseController {
     }
 
     @GetMapping
-    private List<NurseDto> getAllNurses(
+    private NurseResponse getAllNurses(
         @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){

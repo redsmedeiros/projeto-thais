@@ -3,7 +3,6 @@ package com.rodolpho.projetothais.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.rodolpho.projetothais.entity.Nurse;
 import com.rodolpho.projetothais.exception.ResourceNotFoundException;
 import com.rodolpho.projetothais.payload.NurseDto;
+import com.rodolpho.projetothais.payload.NurseResponse;
 import com.rodolpho.projetothais.repository.NurseRepository;
 import com.rodolpho.projetothais.service.NurseService;
 
@@ -36,7 +36,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public List<NurseDto> getAllNurses(int pageNo, int pageSize) {
+    public NurseResponse getAllNurses(int pageNo, int pageSize) {
 
         PageRequest pageable = PageRequest.of(pageNo, pageSize);
        
@@ -44,7 +44,21 @@ public class NurseServiceImpl implements NurseService {
 
         List<Nurse> listOfNurses = nurses.getContent();
 
-        return listOfNurses.stream().map(nurse -> mapToDto(nurse)).collect(Collectors.toList());
+        List<NurseDto> content = listOfNurses.stream().map(nurse -> mapToDto(nurse)).collect(Collectors.toList());
+
+        NurseResponse nurseResponse = new NurseResponse();
+
+        Long totalNursesWithExperienceGreaterThanThreshold = nurseRepository.countNursesWithExperienceGreaterThan(10);
+
+        nurseResponse.setContent(content);
+        nurseResponse.setPageNo(nurses.getNumber());
+        nurseResponse.setPageSize(nurses.getSize());
+        nurseResponse.setTotalElement(nurses.getTotalElements());
+        nurseResponse.setTotalElement(nurses.getTotalPages());
+        nurseResponse.setLast(nurses.isLast());
+        nurseResponse.setMore10Years(totalNursesWithExperienceGreaterThanThreshold);
+
+        return nurseResponse;
     }
 
     @Override
@@ -123,6 +137,7 @@ public class NurseServiceImpl implements NurseService {
 
     }
 
+   
     
 
     
