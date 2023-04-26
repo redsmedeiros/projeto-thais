@@ -18,4 +18,6 @@ public class NurseResponse {
     private boolean last;
     private long more10Years; 
     private long genderFeminino;
+    private int genderMasculino;
+
 }

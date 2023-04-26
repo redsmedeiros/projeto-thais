@@ -15,5 +15,8 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
     @Query("SELECT n FROM Nurse n WHERE n.gender = 'feminino'")
     List<Nurse> findAllFemaleNurses();
+
+    @Query("SELECT n FROM Nurse n WHERE n.gender = 'masculino'")
+    List<Nurse> findAllMaleNurses();
     
 }

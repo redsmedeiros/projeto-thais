@@ -54,6 +54,10 @@ public class NurseServiceImpl implements NurseService {
 
         int qtdFeminino = genderFeminino.size();
 
+        List<Nurse> genderMasculino = nurseRepository.findAllMaleNurses();
+
+        int qtdMasculino = genderMasculino.size();
+
         nurseResponse.setContent(content);
         nurseResponse.setPageNo(nurses.getNumber());
         nurseResponse.setPageSize(nurses.getSize());
@@ -62,6 +66,7 @@ public class NurseServiceImpl implements NurseService {
         nurseResponse.setLast(nurses.isLast());
         nurseResponse.setMore10Years(totalNursesWithExperienceGreaterThanThreshold);
         nurseResponse.setGenderFeminino(qtdFeminino);
+        nurseResponse.setGenderMasculino(qtdMasculino);
 
         return nurseResponse;
     }
