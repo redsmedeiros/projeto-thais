@@ -7,7 +7,7 @@ public interface NurseService {
     
     NurseDto createNurse(NurseDto nurseDto);
 
-    NurseResponse getAllNurses(int pageNo, int pageSize);
+    NurseResponse getAllNurses(int pageNo, int pageSize, String sortBy, String sortDir);
 
     NurseDto getSingleNurse(Long nurseId);
 

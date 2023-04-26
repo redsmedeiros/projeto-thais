@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.rodolpho.projetothais.entity.Nurse;
@@ -36,9 +37,11 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public NurseResponse getAllNurses(int pageNo, int pageSize) {
+    public NurseResponse getAllNurses(int pageNo, int pageSize, String sortBy, String sortDir) {
 
-        PageRequest pageable = PageRequest.of(pageNo, pageSize);
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        PageRequest pageable = PageRequest.of(pageNo, pageSize, sort);
        
         Page<Nurse> nurses = nurseRepository.findAll(pageable);
 
