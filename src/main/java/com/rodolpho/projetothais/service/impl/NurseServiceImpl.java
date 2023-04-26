@@ -50,6 +50,10 @@ public class NurseServiceImpl implements NurseService {
 
         Long totalNursesWithExperienceGreaterThanThreshold = nurseRepository.countNursesWithExperienceGreaterThan(10);
 
+        List<Nurse> genderFeminino = nurseRepository.findAllFemaleNurses();
+
+        int qtdFeminino = genderFeminino.size();
+
         nurseResponse.setContent(content);
         nurseResponse.setPageNo(nurses.getNumber());
         nurseResponse.setPageSize(nurses.getSize());
@@ -57,6 +61,7 @@ public class NurseServiceImpl implements NurseService {
         nurseResponse.setTotalElement(nurses.getTotalPages());
         nurseResponse.setLast(nurses.isLast());
         nurseResponse.setMore10Years(totalNursesWithExperienceGreaterThanThreshold);
+        nurseResponse.setGenderFeminino(qtdFeminino);
 
         return nurseResponse;
     }

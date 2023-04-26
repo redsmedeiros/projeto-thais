@@ -17,4 +17,5 @@ public class NurseResponse {
     private int totalPages;
     private boolean last;
     private long more10Years; 
+    private long genderFeminino;
 }
