@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rodolpho.projetothais.payload.NurseDto;
 import com.rodolpho.projetothais.payload.NurseResponse;
 import com.rodolpho.projetothais.service.NurseService;
+import com.rodolpho.projetothais.utils.AppConstants;
 
 @RestController
 @RequestMapping("/api/nurse")
@@ -37,10 +38,10 @@ public class NurseController {
 
     @GetMapping
     private NurseResponse getAllNurses(
-        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
-        @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-        @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+        @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ){
 
         return nurseService.getAllNurses(pageNo, pageSize, sortBy, sortDir);
