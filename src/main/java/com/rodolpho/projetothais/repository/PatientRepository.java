@@ -9,5 +9,7 @@ import com.rodolpho.projetothais.entity.Patient;
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByNurseId(long id);
+
+    Patient findByEmail(String email);
     
 }

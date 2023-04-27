@@ -79,6 +79,12 @@ public class PatientServiceImpl implements PatientService {
             throw new NurseAPIException(HttpStatus.BAD_REQUEST, "Patient does not belong to nurse");
         }
 
+        Patient existingPatient = patientRepository.findByEmail(patientDto.getEmail());
+
+        if (existingPatient != null && existingPatient.getId() != patientId) {
+            throw new NurseAPIException(HttpStatus.BAD_REQUEST, "Email already in use");
+        }
+
         patient.setEmail(patientDto.getEmail());
         patient.setName(patientDto.getName());
         patient.setGender(patientDto.getGender());
@@ -89,6 +95,20 @@ public class PatientServiceImpl implements PatientService {
         Patient updatePatient = patientRepository.save(patient);
        
         return mapToDto(updatePatient);
+    }
+
+    @Override
+    public void deletePatientById(long nurseId, long patientId) {
+        
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurseId", "id", nurseId));
+
+        Patient patient = patientRepository.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("nurseId", "id", patientId));
+
+        if(!patient.getNurse().getId().equals(nurse.getId())){
+            throw new NurseAPIException(HttpStatus.BAD_REQUEST, "Patient does not belong to nurse");
+        }
+
+        patientRepository.delete(patient);
     }
 
     private PatientDto mapToDto(Patient patient){
@@ -121,6 +141,9 @@ public class PatientServiceImpl implements PatientService {
 
         return patient;
     }
+
+
+    
 
 
     
