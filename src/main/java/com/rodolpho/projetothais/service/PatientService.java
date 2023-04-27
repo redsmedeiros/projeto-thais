@@ -9,4 +9,6 @@ public interface PatientService {
     PatientDto createPatient(long NurseId, PatientDto patientDto);
 
     List<PatientDto> getPatientByNurseId(long nurseId);
+
+    PatientDto getPatientByid(long nurseId, long patientId);
 }

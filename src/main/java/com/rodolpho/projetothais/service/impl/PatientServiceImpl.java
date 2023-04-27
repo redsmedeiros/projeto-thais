@@ -1,7 +1,6 @@
 package com.rodolpho.projetothais.service.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -52,6 +51,16 @@ public class PatientServiceImpl implements PatientService {
         return patients.stream().map(patient -> mapToDto(patient)).collect(Collectors.toList());
     }
 
+    @Override
+    public PatientDto getPatientByid(long nurseId, long patientId){
+
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurseId", "nurseId", nurseId));
+       
+        Patient patient = patientRepository.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("patientId", "id", patientId));
+
+        return null;
+    }
+
     private PatientDto mapToDto(Patient patient){
 
         PatientDto patientDto = new PatientDto();
@@ -82,6 +91,9 @@ public class PatientServiceImpl implements PatientService {
 
         return patient;
     }
+
+
+   
 
 
     
