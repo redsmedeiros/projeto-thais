@@ -68,6 +68,29 @@ public class PatientServiceImpl implements PatientService {
         return mapToDto(patient);
     }
 
+    @Override
+    public PatientDto updatePatientById(long nurseId, long patientId, PatientDto patientDto){
+
+        Nurse nurse = nurseRepository.findById(nurseId).orElseThrow(()-> new ResourceNotFoundException("nurseid", "id", nurseId));
+
+        Patient patient = patientRepository.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("patientId", "id", patientId));
+
+        if(!patient.getNurse().getId().equals(nurse.getId())){
+            throw new NurseAPIException(HttpStatus.BAD_REQUEST, "Patient does not belong to nurse");
+        }
+
+        patient.setEmail(patientDto.getEmail());
+        patient.setName(patientDto.getName());
+        patient.setGender(patientDto.getGender());
+        patient.setAge(patientDto.getAge());
+        patient.setCity(patientDto.getCity());
+        patient.setPhone(patientDto.getPhone());
+
+        Patient updatePatient = patientRepository.save(patient);
+       
+        return mapToDto(updatePatient);
+    }
+
     private PatientDto mapToDto(Patient patient){
 
         PatientDto patientDto = new PatientDto();
@@ -98,6 +121,9 @@ public class PatientServiceImpl implements PatientService {
 
         return patient;
     }
+
+
+    
 
 
    
