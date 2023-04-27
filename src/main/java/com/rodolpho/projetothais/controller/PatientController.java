@@ -40,4 +40,12 @@ public class PatientController {
 
         return patients;
     }
+
+    @GetMapping("/nurses/{nurseId}/patients/{patientId}")
+    public ResponseEntity<PatientDto> getpatientById(@PathVariable(value = "nurseId") long nurseId, @PathVariable(value = "patientId")  long patientId){
+
+        PatientDto patientResponse = patientService.getPatientByid(nurseId, patientId);
+
+        return new ResponseEntity<PatientDto>(patientResponse, HttpStatus.OK);
+    }
 }

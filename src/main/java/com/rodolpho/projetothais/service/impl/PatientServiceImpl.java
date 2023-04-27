@@ -3,10 +3,12 @@ package com.rodolpho.projetothais.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.rodolpho.projetothais.entity.Nurse;
 import com.rodolpho.projetothais.entity.Patient;
+import com.rodolpho.projetothais.exception.NurseAPIException;
 import com.rodolpho.projetothais.exception.ResourceNotFoundException;
 import com.rodolpho.projetothais.payload.PatientDto;
 import com.rodolpho.projetothais.repository.NurseRepository;
@@ -58,7 +60,12 @@ public class PatientServiceImpl implements PatientService {
        
         Patient patient = patientRepository.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("patientId", "id", patientId));
 
-        return null;
+        //se pertencer a enfermeira pode retornar
+        if(!patient.getNurse().getId().equals(nurse.getId())){
+            throw new NurseAPIException(HttpStatus.BAD_REQUEST, "Patient does not belong to nurse");
+        }
+
+        return mapToDto(patient);
     }
 
     private PatientDto mapToDto(Patient patient){
