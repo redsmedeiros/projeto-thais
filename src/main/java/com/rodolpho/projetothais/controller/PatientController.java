@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,15 @@ public class PatientController {
         PatientDto updatePatient = patientService.updatePatientById(nurseId, patientId, patientDto);
 
         return new ResponseEntity<>(updatePatient, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/nurses/{nurseId}/patients/{patientId}")
+    public ResponseEntity<String> deletePatientId(@PathVariable(value = "nurseId") long nurseId, @PathVariable(value = "patientId") long patientId){
+
+        patientService.deletePatientById(nurseId, patientId);
+
+        return new ResponseEntity<String>("Patient deleted successfully", HttpStatus.OK);
     }
 
 
