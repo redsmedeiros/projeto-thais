@@ -1,5 +1,9 @@
 package com.rodolpho.projetothais.service.impl;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.rodolpho.projetothais.entity.Nurse;
@@ -40,6 +44,14 @@ public class PatientServiceImpl implements PatientService {
         return mapToDto(newPatient);
     }
 
+    @Override
+    public List<PatientDto> getPatientByNurseId(long nurseId) {
+
+        List<Patient> patients = patientRepository.findByNurseId(nurseId);
+        
+        return patients.stream().map(patient -> mapToDto(patient)).collect(Collectors.toList());
+    }
+
     private PatientDto mapToDto(Patient patient){
 
         PatientDto patientDto = new PatientDto();
@@ -50,6 +62,7 @@ public class PatientServiceImpl implements PatientService {
         patientDto.setPhone(patient.getPhone());
         patientDto.setAge(patient.getAge());
         patientDto.setCity(patient.getCity());
+        patientDto.setGender(patient.getGender());
         
         return patientDto;
 
@@ -65,9 +78,13 @@ public class PatientServiceImpl implements PatientService {
         patient.setPhone(patientDto.getPhone());
         patient.setAge(patientDto.getAge());
         patient.setCity(patientDto.getCity());
+        patient.setGender(patientDto.getGender());
 
         return patient;
     }
+
+
+    
 
 
     

@@ -1,7 +1,10 @@
 package com.rodolpho.projetothais.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,5 +31,13 @@ public class PatientController {
         PatientDto patientResponse = patientService.createPatient(nurseId, patientDto);
 
         return new ResponseEntity<>(patientResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/nurses/{nurseId}/patients")
+    public List<PatientDto> getAllPatientsByNurseId(@PathVariable(value = "nurseId") long nurseId){
+
+        List<PatientDto> patients = patientService.getPatientByNurseId(nurseId);
+
+        return patients;
     }
 }
