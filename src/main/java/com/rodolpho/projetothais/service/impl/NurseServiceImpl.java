@@ -3,6 +3,7 @@ package com.rodolpho.projetothais.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,8 +21,11 @@ public class NurseServiceImpl implements NurseService {
 
     NurseRepository nurseRepository;
 
-    public NurseServiceImpl(NurseRepository nurseRepository){
+    private ModelMapper modelMapper;
+
+    public NurseServiceImpl(NurseRepository nurseRepository, ModelMapper modelMapper){
         this.nurseRepository = nurseRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -116,22 +120,9 @@ public class NurseServiceImpl implements NurseService {
 
     private NurseDto mapToDto(Nurse nurse){
 
-        NurseDto nurseResponse = new NurseDto();
+        NurseDto nurseDto = modelMapper.map(nurse, NurseDto.class);
 
-        nurseResponse.setId(nurse.getId());
-        nurseResponse.setName(nurse.getName());
-        nurseResponse.setEmail(nurse.getEmail());
-        nurseResponse.setPhone(nurse.getPhone());
-        nurseResponse.setEmail(nurse.getEmail());
-        nurseResponse.setPhone(nurse.getPhone());
-        nurseResponse.setAge(nurse.getAge());
-        nurseResponse.setGender(nurse.getGender());
-        nurseResponse.setDescription(nurse.getDescription());
-        nurseResponse.setExperienceYears(nurse.getExperienceYears());
-        nurseResponse.setGraduation(nurse.getGraduation());
-        nurseResponse.setCity(nurse.getCity());
-
-        return nurseResponse;
+        return nurseDto;
     }
 
     private Nurse mapToEntity(NurseDto nurseDto){

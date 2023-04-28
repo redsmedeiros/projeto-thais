@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rodolpho.projetothais.payload.PatientDto;
 import com.rodolpho.projetothais.service.PatientService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/")
 public class PatientController {
@@ -29,7 +31,7 @@ public class PatientController {
     }
 
     @PostMapping("/nurses/{nurseId}/patients")
-    public ResponseEntity<PatientDto> createPatient(@PathVariable(value = "nurseId") long nurseId, @RequestBody PatientDto patientDto){
+    public ResponseEntity<PatientDto> createPatient(@PathVariable(value = "nurseId") long nurseId, @Valid @RequestBody PatientDto patientDto){
 
         PatientDto patientResponse = patientService.createPatient(nurseId, patientDto);
 
@@ -53,7 +55,7 @@ public class PatientController {
     }
 
     @PatchMapping("/nurses/{nurseId}/patients/{patientId}")
-    public ResponseEntity<PatientDto> updatePatientById(@PathVariable(value = "nurseId") long nurseId, @PathVariable(value = "patientId") long patientId, @RequestBody PatientDto patientDto){
+    public ResponseEntity<PatientDto> updatePatientById(@PathVariable(value = "nurseId") long nurseId, @PathVariable(value = "patientId") long patientId, @Valid @RequestBody PatientDto patientDto){
 
         PatientDto updatePatient = patientService.updatePatientById(nurseId, patientId, patientDto);
 
