@@ -14,4 +14,8 @@ public interface NurseService {
     NurseDto updateNurse(Long nurseId, NurseDto nurseDto);
 
     void deleteNurse(Long nurseId);
+
+    String teste();
 }
+    
+

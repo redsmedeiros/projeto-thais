@@ -2,7 +2,9 @@ package com.rodolpho.projetothais.controller;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +24,12 @@ import com.rodolpho.projetothais.utils.AppConstants;
 @RequestMapping("/api/nurse")
 public class NurseController {
 
-    NurseService nurseService;
-
+    private NurseService nurseService;
+    
     public NurseController(NurseService nurseService){
+        
         this.nurseService = nurseService;
+        
     }
 
     @PostMapping
@@ -55,6 +59,7 @@ public class NurseController {
         return new ResponseEntity<>(nurseResponse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     private ResponseEntity<NurseDto> updateNurse(@PathVariable(name = "id") Long nurseId, @RequestBody NurseDto nurseDto){
 
@@ -63,6 +68,7 @@ public class NurseController {
         return new ResponseEntity<>(updatedNurse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     private ResponseEntity<String> deleteNurse(@PathVariable(name = "id") Long nurseId){
 

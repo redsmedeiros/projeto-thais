@@ -16,18 +16,22 @@ import com.rodolpho.projetothais.payload.NurseResponse;
 import com.rodolpho.projetothais.repository.NurseRepository;
 import com.rodolpho.projetothais.service.NurseService;
 
+
 @Service
-public class NurseServiceImpl implements NurseService {
+public class NurseServiceImpl implements NurseService{
 
     NurseRepository nurseRepository;
 
     private ModelMapper modelMapper;
 
-    public NurseServiceImpl(NurseRepository nurseRepository, ModelMapper modelMapper){
+  
+    public NurseServiceImpl(NurseRepository nurseRepository){
         this.nurseRepository = nurseRepository;
         this.modelMapper = modelMapper;
+      
     }
 
+    
     @Override
     public NurseDto createNurse(NurseDto nurseDto) {
 
@@ -143,6 +147,14 @@ public class NurseServiceImpl implements NurseService {
         return nurse;
 
     }
+
+
+    @Override
+    public String teste() {
+        return "teste";
+    }
+
+
 
    
     
