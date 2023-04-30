@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodolpho.projetothais.payload.LoginDto;
+import com.rodolpho.projetothais.payload.RegisterDto;
 import com.rodolpho.projetothais.service.AuthService;
 
 @RestController
@@ -27,6 +28,15 @@ public class AuthController {
         String response = authService.login(loginDto);
 
         return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = {"/register", "/signup"})
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
+
+        String response = authService.register(registerDto);
+
+        return new ResponseEntity<String>(response, HttpStatus.CREATED);
     }
     
 }
