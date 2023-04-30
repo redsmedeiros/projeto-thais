@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 import com.rodolpho.projetothais.entity.Role;
 import com.rodolpho.projetothais.entity.User;
 import com.rodolpho.projetothais.exception.NurseAPIException;
-import com.rodolpho.projetothais.exception.ResourceNotFoundException;
 import com.rodolpho.projetothais.payload.LoginDto;
 import com.rodolpho.projetothais.payload.RegisterDto;
 import com.rodolpho.projetothais.repository.RoleRepository;
 import com.rodolpho.projetothais.repository.UserRepository;
+import com.rodolpho.projetothais.security.JwtTokenProvider;
 import com.rodolpho.projetothais.service.AuthService;
 
 @Service
@@ -32,7 +32,9 @@ public class AuthServiceImpl implements AuthService {
 
     private PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder ){
+    private JwtTokenProvider jwtTokenProvider;
+
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider ){
 
         this.authenticationManager = authenticationManager;
 
@@ -41,6 +43,8 @@ public class AuthServiceImpl implements AuthService {
         this.roleRepository = roleRepository;
 
         this.passwordEncoder = passwordEncoder;
+
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -49,8 +53,10 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtTokenProvider.generateToken(authentication);
         
-        return "User logged-in successfully";
+        return token;
     }
 
     @Override
